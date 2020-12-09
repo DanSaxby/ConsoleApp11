@@ -70,7 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainAOC.vb" />
-    <Compile Include="AdventOfCode2.vb" />
     <Compile Include="AdventOfCode1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
