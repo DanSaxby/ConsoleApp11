@@ -2,50 +2,56 @@
 Module MainAOC
 
     Sub Main()
-        Dim linecount As Integer = File.ReadAllLines("AOC3.txt").Length
-        Dim TreeMap(30, (linecount - 1)) As Char
+        Dim numberofpass As Integer
+        Dim linecount As Integer = File.ReadAllLines("AOC4.txt").Length
         Dim line As String
-        Dim countx, county, i, treecount As Integer
-
-        Using sr As New StreamReader("AOC3.txt")
-            county = 0
+        Dim linearray() As String
+        Dim linesplit() As String
+        Using sr As New StreamReader("AOC4.txt")
             For i = 0 To linecount - 1
                 line = sr.ReadLine()
-                countx = 0
-                For Each t In line
-                    TreeMap(countx, county) = t
-                    countx += 1
-                Next
-                county += 1
+                If line = Nothing Then
+                    numberofpass += 1
+                End If
+            Next
+            numberofpass += 2
+        End Using
+        Dim Passportarray(numberofpass - 1) As Dictionary(Of String, String)
+        For p = 0 To Passportarray.Length - 1
+            Passportarray(p) = New Dictionary(Of String, String)
+        Next
+        Dim count As Integer
+        Using sr As New StreamReader("AOC4.txt")
+
+            For i = 0 To linecount - 1
+                line = sr.ReadLine()
+                If line <> "" Then
+                    If line.Contains(" ") Then
+                        linearray = line.Split(" ")
+                        For Each l In linearray
+                            linesplit = l.Split(":")
+                            Passportarray(count).Add(linesplit(0), linesplit(0))
+
+                        Next
+                    Else
+                        linesplit = line.Split(":")
+                        Passportarray(count).Add(linesplit(0), linesplit(1))
+                    End If
+                Else
+                    count += 1
+                End If
             Next
         End Using
-        countx = 0
-        county = 0
-        counttrees(1, 1, linecount, TreeMap)
-        counttrees(3, 1, linecount, TreeMap)
-        counttrees(5, 1, linecount, TreeMap)
-        counttrees(7, 1, linecount, TreeMap)
-        counttrees(1, 2, linecount, TreeMap)
+        Dim validpass As Integer
+        For Each p In Passportarray
+            If p.ContainsKey("byr") And p.ContainsKey("iyr") And p.ContainsKey("eyr") And p.ContainsKey("hgt") And p.ContainsKey("hcl") And p.ContainsKey("ecl") And p.ContainsKey("pid") Then
+                validpass += 1
+            End If
+        Next
+        Console.WriteLine(validpass)
         Console.ReadLine()
     End Sub
-    Sub counttrees(X As Integer, Y As Integer, linecount As Integer, treemap(,) As Char)
-        Dim countx, county, treecount As Integer
-        While county <> linecount
-            If county <= 323 Then
 
-                If countx > 30 Then
-                countx = countx - 31
-            End If
-                If treemap(countx, county) = "#" Then
-                    treecount += 1
-                End If
-
-            End If
-            countx += X
-            county += Y
-        End While
-        Console.WriteLine(treecount)
-    End Sub
 
 
 
